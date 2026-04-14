@@ -87,16 +87,31 @@ cp commands/enrich.md ~/.claude/commands/
 
 ## Usage
 
+### Command line
+
+After running `setup.sh`, use the `threatu` command from anywhere:
+
+```bash
+threatu 192.168.1.1
+threatu d41d8cd98f00b204e9800998ecf8427e
+threatu malicious-site.com
+threatu https://malicious-site.com/payload.exe
+```
+
+All sources are queried **in parallel** and results are printed as a formatted report with a final verdict: `MALICIOUS` / `SUSPICIOUS` / `CLEAN` / `UNKNOWN`.
+
+### Claude Code slash command
+
 ```
 /enrich 192.168.1.100
 /enrich d41d8cd98f00b204e9800998ecf8427e
 /enrich malicious-site.com
-/enrich https://malicious-site.com/payload.exe
 ```
 
-Or call tools directly:
+### MCP tools directly
 
 ```
+ti_enrich("1.2.3.4")
 ti_enrich_ip("1.2.3.4")
 ti_enrich_hash("d41d8cd98f00b204e9800998ecf8427e")
 ti_configured_sources()

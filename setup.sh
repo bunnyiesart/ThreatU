@@ -17,11 +17,22 @@ if [ ! -f ~/.config/mcp-threatu/config.json ]; then
     cp config.example.json ~/.config/mcp-threatu/config.json
     chmod 600 ~/.config/mcp-threatu/config.json
     echo "    Config created at ~/.config/mcp-threatu/config.json"
-    echo "    Fill in your API keys before starting the server."
+    echo "    Fill in your API keys before use."
 else
     echo "    Config already exists, skipping."
 fi
 
 echo ""
-echo "Setup complete."
-echo "To verify sources: .venv/bin/python3 -c \"import sys; sys.path.insert(0,'.');from server import *; print(ti_configured_sources())\""
+echo "==> Creating 'threatu' command..."
+WRAPPER="$HOME/.local/bin/threatu"
+mkdir -p "$HOME/.local/bin"
+cat > "$WRAPPER" <<EOF
+#!/usr/bin/env bash
+exec "$(pwd)/.venv/bin/python3" "$(pwd)/cli.py" "\$@"
+EOF
+chmod +x "$WRAPPER"
+echo "    Installed at: $WRAPPER"
+echo "    Make sure ~/.local/bin is in your PATH."
+
+echo ""
+echo "Setup complete. Run: threatu <ip|hash|domain|url>"
